@@ -91,7 +91,7 @@ const TalemAI = () => {
     <div className="flex flex-col bg-white">
       <main className="flex-1 overflow-hidden flex flex-col max-w-5xl w-full mx-auto">
         <div className="flex-1 overflow-y-auto px-4 py-6">
-          <div className="max-w-3xl mx-auto space-y-6 max-h-1/2">
+          <div className="max-w-3xl mx-auto space-y-6 overflow-auto pb-60">
             {messages.length === 0 ? (
               <GetStartedAI />
             ) : (
@@ -133,7 +133,7 @@ const TalemAI = () => {
           </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 w-full flex items-center justify-center border-t border-gray-200 bg-white px-4 py-4 z-50">
+        <div className="fixed bottom-0 left-0 w-full flex items-center justify-center bg-white px-4 py-4 z-50">
           <div className="w-screen">
             <form onSubmit={handleSendMessage} className="relative">
               <div className="overflow-hidden rounded-xl border border-gray-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 shadow-sm bg-white">
