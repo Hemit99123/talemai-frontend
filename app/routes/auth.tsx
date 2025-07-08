@@ -2,6 +2,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import type { Route } from "./+types/home";
 import httpAIHeader from "services/httpAIHeader";
 import { ToastContainer, toast } from "react-toastify";
+import { handleSetStatus } from "helper/authStatus";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -28,6 +29,7 @@ const Auth = () => {
 
                 if (response.status === 200) {
                     toast('Login Successful');
+                    handleSetStatus(true)
                 } else {
                     toast.error('Login Failed');
                 }

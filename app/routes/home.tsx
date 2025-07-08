@@ -1,9 +1,13 @@
+'use client'
+
 import type { Route } from "./+types/home";
 import { useState, useRef, useEffect, type FormEvent, type KeyboardEvent } from "react";
-import { SendIcon, Sparkles, CornerDownLeft } from "lucide-react";
+import Cookies from "js-cookie";
+import { SendIcon, Sparkles, CornerDownLeft, Cookie } from "lucide-react";
 import httpAIHeader from "../../services/httpAIHeader";
 import GetStartedAI from "../../components/GetStartedAI";
 import { usePromptStore } from "../../store/prompt";
+import NavBar from "components/NavBar";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -89,6 +93,7 @@ const TalemAI = () => {
 
   return (
     <div className="flex flex-col bg-white">
+      <NavBar />
       <main className="flex-1 overflow-hidden flex flex-col max-w-5xl w-full mx-auto">
         <div className="flex-1 overflow-y-auto px-4 py-6">
           <div className="max-w-3xl mx-auto space-y-6 overflow-auto pb-60">
