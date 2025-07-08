@@ -16,7 +16,6 @@ const NavBar = () => {
             handleSetStatus(false);
         } else {
             toast.error('Logout Failed');
-            console.error("Logout failed");
         }
     }
 
@@ -50,7 +49,6 @@ const NavBar = () => {
                                     className="p-2"
                                     handleLogout={handleLogout}
                                 >
-                                    logout
                                     <LogOutIcon className="h-6 w-6 text-gray-700" />
                                 </Button>
                                 ) : (
@@ -58,7 +56,6 @@ const NavBar = () => {
                                     className="p-2"
                                     handleLogout={handleGoToLogin}
                                 >
-                                    login
                                     <LucideLogIn className="h-6 w-6 text-gray-700" />
                                 </Button>
                                 )}
