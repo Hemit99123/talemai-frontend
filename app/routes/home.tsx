@@ -21,7 +21,7 @@ type Message = {
   content: string;
 };
 
-const TalemAI = () => {
+const Home = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { prompt, setPrompt } = usePromptStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -186,4 +186,4 @@ const TalemAI = () => {
   );
 };
 
-export default TalemAI;
+export default Home;
