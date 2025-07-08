@@ -2,12 +2,12 @@
 
 import type { Route } from "./+types/home";
 import { useState, useRef, useEffect, type FormEvent, type KeyboardEvent } from "react";
-import Cookies from "js-cookie";
-import { SendIcon, Sparkles, CornerDownLeft, Cookie } from "lucide-react";
+import { SendIcon, Sparkles, CornerDownLeft, Database } from "lucide-react";
 import httpAIHeader from "../../services/httpAIHeader";
 import GetStartedAI from "../../components/GetStartedAI";
 import { usePromptStore } from "../../store/prompt";
 import NavBar from "components/NavBar";
+import { toast } from "react-toastify";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -60,6 +60,7 @@ const Home = () => {
       let typedMessage = "";
       const delay = 30;
 
+      // Simulate typing effect by iterating over each character
       assistantResponse.split("").forEach((char, index) => {
         setTimeout(() => {
           typedMessage += char;
@@ -91,6 +92,25 @@ const Home = () => {
     }
   };
 
+  const handleSaveChatHistory = async () => {
+    if (messages.length === 0) return;  
+
+    httpAIHeader.post("/chat-history/", {
+      messages: messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      })),  
+    })
+      .then(() => {
+        toast("Chat history saved successfully!");
+      })
+      .catch((error) => {    
+        toast.error("Failed to save chat history. Please try again.");
+      });
+
+    setMessages([])
+  }
+
   return (
     <div className="flex flex-col bg-white">
       <NavBar />
@@ -100,24 +120,22 @@ const Home = () => {
             {messages.length === 0 ? (
               <GetStartedAI />
             ) : (
-              messages.map((message, index) => (
-                <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                      <img src="https://camo.githubusercontent.com/7fd485d76f0cd3037c7f194738e75494a038bd315ca9c61ba7859e630548f00c/68747470733a2f2f692e6962622e636f2f6e7330775a64746a2f492d32303235303331302d3030343630352d303030302d312d72656d6f766562672d707265766965772e706e672f" />
-                    </div>
-                  )}
+                messages.map((message, index) => (
                   <div
-                    className={`rounded-2xl px-4 py-3 max-w-[85%] shadow-sm ${
-                      message.role === "user"
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
+                    key={index}
+                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} mb-4`}
                   >
-                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                    <div
+                      className={`max-w-xs px-4 py-2 rounded-lg shadow-sm ${
+                        message.role === "user"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {message.content}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
             )}
 
             {isLoading && (
@@ -158,18 +176,29 @@ const Home = () => {
                       Press <span className="px-1 py-0.5 bg-gray-100 rounded text-xs">Enter</span> to send
                     </kbd>
                   </div>
-                  <button
-                    type="submit"
-                    className={`rounded-lg px-4 py-2 flex items-center justify-center transition-all ${
-                      prompt.trim()
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md hover:shadow-lg"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    }`}
-                    disabled={!prompt.trim() || isLoading}
-                  >
-                    <SendIcon className="h-4 w-4 mr-1" />
-                    <span>Send</span>
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      type="submit"
+                      className="rounded-lg px-4 py-2 flex items-center justify-center transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md hover:shadow-lg"
+                      onClick={handleSaveChatHistory}
+                    >
+                      <Database className="h-4 w-4 mr-1" />
+                      <span>Save chat history</span>
+                    </button>
+                    <button
+                      type="submit"
+                      className={`rounded-lg px-4 py-2 flex items-center justify-center transition-all ${
+                        prompt.trim()
+                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md hover:shadow-lg"
+                          : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      }`}
+                      disabled={!prompt.trim() || isLoading}
+                    >
+                      <SendIcon className="h-4 w-4 mr-1" />
+                      <span>Send</span>
+                    </button>
+                  </div>
+
                 </div>
               </div>
             </form>
