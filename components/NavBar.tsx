@@ -34,8 +34,8 @@ const NavBar = () => {
                         <div className="flex shrink-0 items-center">
                             <img
                                 className="h-20 w-auto"
-                                src="public/talemai.png"
-                                alt="Your Company"
+                                src="public/favicon.ico"
+                                alt="Talem AI"
                             />
                         </div>
                     </div>
