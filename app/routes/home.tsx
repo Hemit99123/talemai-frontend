@@ -50,7 +50,7 @@ const TalemAI = () => {
     }
 
     try {
-      const response = await httpAIHeader.post("/", { query: prompt });
+      const response = await httpAIHeader.post("/chat/", { query: prompt });
       const assistantResponse: string = response.data.response || "Sorry, I couldn't understand your request.";
 
       let typedMessage = "";
@@ -71,7 +71,6 @@ const TalemAI = () => {
         }, index * delay);
       });
     } catch (error) {
-      console.error("Error during API request:", error);
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "Oops! Something went wrong. Please try again." },
@@ -92,7 +91,7 @@ const TalemAI = () => {
     <div className="flex flex-col bg-white">
       <main className="flex-1 overflow-hidden flex flex-col max-w-5xl w-full mx-auto">
         <div className="flex-1 overflow-y-auto px-4 py-6">
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="max-w-3xl mx-auto space-y-6 max-h-1/2">
             {messages.length === 0 ? (
               <GetStartedAI />
             ) : (

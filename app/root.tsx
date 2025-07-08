@@ -63,7 +63,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.GOOGLE_CLIENT_ID}>
     <main className="pt-16 p-4 container mx-auto">
       <h1>{message}</h1>
       <p>{details}</p>
@@ -73,6 +72,5 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         </pre>
       )}
     </main>
-    </GoogleOAuthProvider>
   );
 }
